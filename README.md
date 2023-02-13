@@ -9,7 +9,7 @@ It's a bit more time invested but it should give you a better experience in lear
 ## Requirements
 
 ### Tech Stack
-- Python 3.9+
+- Python 3.9
 - [Pulumi for AWS](https://www.pulumi.com/docs/get-started/aws/)
 - an AWS account (on the free tier, nothing here should cost you)
 - provide instructions on how to run your code
