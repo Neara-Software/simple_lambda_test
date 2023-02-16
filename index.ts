@@ -1,12 +1,11 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
-import * as awsx from "@pulumi/awsx";
 
 const stack = pulumi.getStack();
 
 const tags = { Name: "neara-task" };
 
-// Create VPC and private subnet
+// Create VPC and subnets
 const vpc = new aws.ec2.Vpc("andy-vpc", {
   cidrBlock: "10.0.0.0/16",
   tags: tags,
@@ -113,7 +112,36 @@ const natgw = new aws.ec2.NatGateway("natgw", {
   tags: tags,
 });
 
+const privateRouteTable = new aws.ec2.RouteTable("private-route-table", {
+  vpcId: vpc.id,
+  routes: [{ cidrBlock: "0.0.0.0/0", natGatewayId: natgw.id }],
+  tags: tags,
+});
+
+const privateAssociation = new aws.ec2.RouteTableAssociation(
+  "private-subnet-association",
+  {
+    routeTableId: privateRouteTable.id,
+    subnetId: privateSubnet.id,
+  }
+);
+
+const publicRouteTable = new aws.ec2.RouteTable("public-route-table", {
+  vpcId: vpc.id,
+  routes: [{ cidrBlock: "0.0.0.0/0", gatewayId: igw.id }],
+  tags: tags,
+});
+
+const mainAssociation = new aws.ec2.MainRouteTableAssociation(
+  "main-route-association",
+  {
+    routeTableId: publicRouteTable.id,
+    vpcId: vpc.id,
+  }
+);
+
 // Log info
-export const subnetCidr = privateSubnet.cidrBlock;
+export const privateSubnetCidr = privateSubnet.cidrBlock;
+export const publicSubnetCidr = publicSubnet.cidrBlock;
 export const lambdaFunctionArn = infoHandler.arn;
 export const endpoint = api.apiEndpoint;
