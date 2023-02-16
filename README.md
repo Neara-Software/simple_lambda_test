@@ -19,6 +19,8 @@ It's a bit more time invested but it should give you a better experience in lear
 - [x] Internet access from private subnet (tested with separate Lambda in private subnet)?
 - [x] IAM Role has correct policies attached?
 
+![andy-architecture](./andy-architecture.png)
+
 ## Instructions
 
 ### Prerequisites
