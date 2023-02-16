@@ -4,7 +4,6 @@ import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
 
 const stack = pulumi.getStack();
-
 const tags = { Name: "neara-task" };
 
 // Create VPC and subnets
@@ -33,11 +32,19 @@ const lambdaRole = new aws.iam.Role("info-handler-role", {
   tags: tags,
 });
 
-const lambdaRoleAttachment = new aws.iam.RolePolicyAttachment(
-  "lambdaRoleAttachment",
+const lambdaRoleAttachment1 = new aws.iam.RolePolicyAttachment(
+  "lambdaRoleAttachment1",
   {
     role: lambdaRole,
     policyArn: aws.iam.ManagedPolicy.AWSLambdaBasicExecutionRole,
+  }
+);
+
+const lambdaRoleAttachment2 = new aws.iam.RolePolicyAttachment(
+  "lambdaRoleAttachment2",
+  {
+    role: lambdaRole,
+    policyArn: aws.iam.ManagedPolicy.AWSLambdaVPCAccessExecutionRole,
   }
 );
 
@@ -46,6 +53,10 @@ const infoHandler = new aws.lambda.Function("info-handler", {
   runtime: aws.lambda.Runtime.Python3d9,
   code: new pulumi.asset.FileArchive("./lambda/main.py.zip"),
   handler: "main.info_handler", // fileName.methodName
+  vpcConfig: {
+    subnetIds: [privateSubnet.id],
+    securityGroupIds: [vpc.defaultSecurityGroupId],
+  },
   tags: tags,
 });
 
@@ -150,8 +161,6 @@ const mainAssociation = new aws.ec2.MainRouteTableAssociation(
     vpcId: vpc.id,
   }
 );
-
-// CloudWatch integration
 
 // Log info
 export const privateSubnetCidr = privateSubnet.cidrBlock;
