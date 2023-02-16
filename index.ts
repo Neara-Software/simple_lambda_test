@@ -1,3 +1,5 @@
+// Neara Infrastructure Task
+
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
 
@@ -30,6 +32,14 @@ const lambdaRole = new aws.iam.Role("info-handler-role", {
   ),
   tags: tags,
 });
+
+const lambdaRoleAttachment = new aws.iam.RolePolicyAttachment(
+  "lambdaRoleAttachment",
+  {
+    role: lambdaRole,
+    policyArn: aws.iam.ManagedPolicy.AWSLambdaBasicExecutionRole,
+  }
+);
 
 const infoHandler = new aws.lambda.Function("info-handler", {
   role: lambdaRole.arn,
@@ -65,6 +75,7 @@ const api = new aws.apigatewayv2.Api("andy-api-gateway", {
   tags: tags,
 });
 
+// Give access to Api Gateway to use Lambda
 const withApi = new aws.lambda.Permission(
   "lambdaPermission",
   {
@@ -139,6 +150,8 @@ const mainAssociation = new aws.ec2.MainRouteTableAssociation(
     vpcId: vpc.id,
   }
 );
+
+// CloudWatch integration
 
 // Log info
 export const privateSubnetCidr = privateSubnet.cidrBlock;
