@@ -163,4 +163,4 @@ const mainAssociation = new aws.ec2.MainRouteTableAssociation(
 );
 
 // Log API Gateway endpoint
-export const endpoint = pulumi.interpolate`{api.apiEndpoint}/${stack}/info`;
+export const endpoint = pulumi.interpolate`${api.apiEndpoint}/${stack}/info`;
