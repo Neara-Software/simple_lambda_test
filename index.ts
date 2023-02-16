@@ -33,7 +33,7 @@ const lambdaRole = new aws.iam.Role("info-handler-role", {
 });
 
 const lambdaRoleAttachment1 = new aws.iam.RolePolicyAttachment(
-  "lambdaRoleAttachment1",
+  "lambda-role-attachement-1",
   {
     role: lambdaRole,
     policyArn: aws.iam.ManagedPolicy.AWSLambdaBasicExecutionRole,
@@ -41,7 +41,7 @@ const lambdaRoleAttachment1 = new aws.iam.RolePolicyAttachment(
 );
 
 const lambdaRoleAttachment2 = new aws.iam.RolePolicyAttachment(
-  "lambdaRoleAttachment2",
+  "lambda-role-attachement-2",
   {
     role: lambdaRole,
     policyArn: aws.iam.ManagedPolicy.AWSLambdaVPCAccessExecutionRole,
@@ -162,8 +162,5 @@ const mainAssociation = new aws.ec2.MainRouteTableAssociation(
   }
 );
 
-// Log info
-export const privateSubnetCidr = privateSubnet.cidrBlock;
-export const publicSubnetCidr = publicSubnet.cidrBlock;
-export const lambdaFunctionArn = infoHandler.arn;
-export const endpoint = api.apiEndpoint;
+// Log API Gateway endpoint
+export const endpoint = pulumi.interpolate`{api.apiEndpoint}/${stack}/info`;
