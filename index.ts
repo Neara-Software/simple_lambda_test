@@ -117,7 +117,7 @@ const stage = new aws.apigatewayv2.Stage("api-stage", {
   autoDeploy: true,
 });
 
-// Create internet gateway, nat gateway and edit route tables
+// Create Internet Gateway, NAT Gateway and edit route tables
 const igw = new aws.ec2.InternetGateway("igw", {
   vpcId: vpc.id,
   tags: tags,
