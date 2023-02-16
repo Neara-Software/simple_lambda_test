@@ -24,7 +24,7 @@ const publicSubnet = new aws.ec2.Subnet("public-subnet", {
   tags: tags,
 });
 
-// Lambda definitions
+// Lambda
 const lambdaRole = new aws.iam.Role("info-handler-role", {
   assumeRolePolicy: aws.iam.assumeRolePolicyForPrincipal(
     aws.iam.Principals.LambdaPrincipal
@@ -86,7 +86,7 @@ const api = new aws.apigatewayv2.Api("andy-api-gateway", {
   tags: tags,
 });
 
-// Give access to Api Gateway to use Lambda
+//// https://github.com/pulumi/examples/blob/master/aws-ts-apigatewayv2-http-api/index.ts
 const withApi = new aws.lambda.Permission(
   "lambdaPermission",
   {
