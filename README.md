@@ -34,7 +34,7 @@ It's a bit more time invested but it should give you a better experience in lear
 1. Configure your AWS credentials with a user that possesses the policy AdministratorAccess. Use the following link for assistance with configuration: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html
 2. Run "npm install" in terminal from the root folder
 3. Run "pulumi up" in terminal and follow the prompts
-4. Copy and paste the endpoint value into your browser
+4. Copy and paste the endpoint value from the terminal output into your browser
 5. Navigate to CloudWatch to observe logs
 
 ## Requirements
