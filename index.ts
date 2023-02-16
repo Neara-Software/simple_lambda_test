@@ -29,9 +29,13 @@ const lambdaRole = new aws.iam.Role("info-handler-role", {
   assumeRolePolicy: aws.iam.assumeRolePolicyForPrincipal(
     aws.iam.Principals.LambdaPrincipal
   ),
+  managedPolicyArns: [
+    aws.iam.ManagedPolicy.AWSLambdaBasicExecutionRole,
+    aws.iam.ManagedPolicy.AWSLambdaVPCAccessExecutionRole,
+  ],
   tags: tags,
 });
-
+/*
 const lambdaRoleAttachment1 = new aws.iam.RolePolicyAttachment(
   "lambda-role-attachement-1",
   {
@@ -47,7 +51,7 @@ const lambdaRoleAttachment2 = new aws.iam.RolePolicyAttachment(
     policyArn: aws.iam.ManagedPolicy.AWSLambdaVPCAccessExecutionRole,
   }
 );
-
+*/
 const infoHandler = new aws.lambda.Function("info-handler", {
   role: lambdaRole.arn,
   runtime: aws.lambda.Runtime.Python3d9,
@@ -88,7 +92,7 @@ const api = new aws.apigatewayv2.Api("andy-api-gateway", {
 
 //// https://github.com/pulumi/examples/blob/master/aws-ts-apigatewayv2-http-api/index.ts
 const withApi = new aws.lambda.Permission(
-  "lambdaPermission",
+  "api-lambda-permission",
   {
     action: "lambda:InvokeFunction",
     principal: "apigateway.amazonaws.com",
