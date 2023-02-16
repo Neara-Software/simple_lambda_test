@@ -35,23 +35,7 @@ const lambdaRole = new aws.iam.Role("info-handler-role", {
   ],
   tags: tags,
 });
-/*
-const lambdaRoleAttachment1 = new aws.iam.RolePolicyAttachment(
-  "lambda-role-attachement-1",
-  {
-    role: lambdaRole,
-    policyArn: aws.iam.ManagedPolicy.AWSLambdaBasicExecutionRole,
-  }
-);
 
-const lambdaRoleAttachment2 = new aws.iam.RolePolicyAttachment(
-  "lambda-role-attachement-2",
-  {
-    role: lambdaRole,
-    policyArn: aws.iam.ManagedPolicy.AWSLambdaVPCAccessExecutionRole,
-  }
-);
-*/
 const infoHandler = new aws.lambda.Function("info-handler", {
   role: lambdaRole.arn,
   runtime: aws.lambda.Runtime.Python3d9,
