@@ -18,6 +18,7 @@ It's a bit more time invested but it should give you a better experience in lear
 Build the following architecture in Pulumi:
 
 ![architecture](./architecture.png)
+** correction - put the NAT in a public subnet
 
 We should be able to curl the API Gateway endpoint and get the json response returned from the lambda. Additionally, all logging output should go to Cloudwatch.
 
