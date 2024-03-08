@@ -1,0 +1,6 @@
+name: simple-lambda-test-infra
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+description: A Pulumi project to deploy the MVP architecture including VPC, subnets, NAT Gateway, Lambda, API Gateway, and CloudWatch logging.
